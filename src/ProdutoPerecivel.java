@@ -27,9 +27,9 @@ public class ProdutoPerecivel extends Produto{
 
     @Override
 	public String toString() {
-    	
-    	NumberFormat moeda = NumberFormat.getCurrencyInstance();
-    	
-		return String.format("NOME: " + descricao + ": " + moeda.format(valorDeVenda()));
+    	DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    	String dados = super.toString();
+        dados += "\nVálido até " + formato.format(dataDeValidade);
+        return dados;
 	}
 }
