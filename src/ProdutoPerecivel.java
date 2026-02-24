@@ -6,7 +6,12 @@ public class ProdutoPerecivel extends Produto{
 
     public ProdutoPerecivel(String desc, double precoCusto, double margemLucro, LocalDate dataDeValidade){
         super(desc, precoCusto, margemLucro);
-        this.dataDeValidade = dataDeValidade;
+        if(dataDeValidade.isAfter(LocalDate.now())){
+            this.dataDeValidade = dataDeValidade;
+        } else {
+            throw new IllegalArgumentException("O produto está vencido!");
+        }
+
     }
 
     @Override
