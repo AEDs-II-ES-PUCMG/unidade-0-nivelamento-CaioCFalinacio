@@ -1,6 +1,6 @@
 import java.text.NumberFormat;
 
-public class Produto {
+public abstract class Produto {
 	
 	private static final double MARGEM_PADRAO = 0.2;
 	private String descricao;
@@ -78,4 +78,10 @@ public class Produto {
         Produto outro = (Produto)obj;
         return this.descricao.toLowerCase().equals(outro.descricao.toLowerCase());
     }
+
+    /**
+     * Gera uma linha de texto a partir dos dados do produto
+     * @return Uma string no formato "tipo; descrição;preçoDeCusto;margemDeLucro;[dataDeValidade]"
+     */
+    public abstract String gerarDadosTexto();
 }
