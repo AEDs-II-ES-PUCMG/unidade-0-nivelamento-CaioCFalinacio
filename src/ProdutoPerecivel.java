@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class ProdutoPerecivel extends Produto{
 
     private double DESCONTO = 0.25;
@@ -37,7 +40,7 @@ public class ProdutoPerecivel extends Produto{
     public String gerarDadosTexto() {
         DataTimeFormatter formatoData = DataTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        String dataFormatada = String.format(formatoData)
+        String dataFormatada = String.format(formatoData);
         String precoFormatado = String.format("%.2f", precoCusto).replace(',', '.');
         String margemFormatada = String.format("%.2f", margemLucro).replace(',', '.');
 
