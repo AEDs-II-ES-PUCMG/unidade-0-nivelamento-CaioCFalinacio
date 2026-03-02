@@ -84,4 +84,34 @@ public abstract class Produto {
      * @return Uma string no formato "tipo; descrição;preçoDeCusto;margemDeLucro;[dataDeValidade]"
      */
     public abstract String gerarDadosTexto();
+
+    /**
+     * Cria um produto a partir de uma linha de dados em formato texto. A linha de dados deve estar de acordo com a
+     formatação
+     * "tipo; descrição;preçoDeCusto;margemDeLucro;[dataDeValidade]"
+     * ou o funcionamento não será garantido. Os tipos são 1 para produto não perecível e 2 para perecível.
+     * @param linha Linha com os dados do produto a ser criado.
+     * @return Um produto com os dados recebidos
+     */
+    static Produto criarDoTexto(String linha){
+        Produto novoProduto = null;
+
+        String separador = ";";
+        String[] atributos = linha.split(separador);
+
+        int tipo =  Integer.parseInt(atributos[0]);
+        String descricao = atributos[1];
+        double precoCusto = Double.parseDouble(atributos[2]);
+        double margemLucro = Double.parseDouble(atributos[3]);
+
+        if(tipo == 1){
+            novoProduto = new ProdutoNaoPerecivel(descricao, precoCusto, margemLucro);
+        }else{
+            DataTimeFormatter formatoData = DataTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataDeValidade = LocalDate.parse(atributos[4], formatoData);
+            novoProduto = new ProdutoPerecivel(descricao, precoCusto, margemLucro, dataDeValidade);
+        }
+
+        return novoProduto;
+    }
 }
