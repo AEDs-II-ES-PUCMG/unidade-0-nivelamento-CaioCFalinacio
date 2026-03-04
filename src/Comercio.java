@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -106,7 +103,34 @@ public class Comercio {
      * Uma sugestão de melhoria mais significativa poderia ser o uso de padrão Factory Method para criação dos objetos.
      */
     static void cadastrarProduto(){
-        //TO DO
+        Produto novo = null;
+
+        System.out.println("Digite a descrição do produto: ");
+        String descricao = teclado.nextLine();
+        System.out.println("Digite o preço de custo do produto: ");
+        double precoCusto = Double.parseDouble(teclado.nextLine());
+        System.out.println("Digite o margem lucro do produto: ");
+        double margemLucro = Double.parseDouble(teclado.nextLine());
+        System.out.println("Digite 1 para produto não perecível e 2 para perecível:");
+        int tipo = Integer.parseInt(teclado.nextLine());
+
+        if(tipo == 1){
+            novo = new ProdutoNaoPerecivel(descricao, precoCusto, margemLucro);
+        }else if(tipo == 2){
+            System.out.println("Digite a data de validade (AAAA-MM-DD): ");
+            LocalDate validade = LocalDate.parse(teclado.nextLine());
+            novo = new ProdutoPerecivel(descricao, precoCusto, margemLucro, validade);
+        }else{
+            throw new IllegalArgumentException("Tipo inválido!");
+        }
+
+        if(quantosProdutos < produtosCadastrados.length){
+            produtosCadastrados[quantosProdutos] = novo;
+            quantosProdutos++;
+            System.out.println("Produto adicionado com sucesso!");
+        }else{
+            System.out.println("Quantidade máxima de produtos cadastrados alcançada!");
+        }
     }
 
     /**
@@ -114,7 +138,17 @@ public class Comercio {
      * @param nomeArquivo Nome do arquivo a ser gravado.
      */
     public static void salvarProdutos(String nomeArquivo){
-        //TO DO  
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            for(int i = 0; i < produtosCadastrados.length; i++){
+                if (produtosCadastrados[i] != null) {
+                    String informacoesFormatadas = produtosCadastrados[i].gerarDadosTexto();
+                    bw.write(informacoesFormatadas);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) throws Exception {
