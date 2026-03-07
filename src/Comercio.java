@@ -1,7 +1,7 @@
 import java.io.*;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Comercio {
@@ -56,26 +56,25 @@ public class Comercio {
      */
     static Produto[] lerProdutos(String nomeArquivoDados) {
         Produto[] produtosCadastrados = new Produto[MAX_NOVOS_PRODUTOS];
-        Scanner arquivo = null;
-        int numProdutos, i;
-        String linha;
-        Produto produto;
+        int i = 0;
 
-        try{
-            arquivo = new Scanner(new File(nomeArquivoDados), Charset.forName("UTF-8"));
-            numProdutos = Integer.parseInt(arquivo.nextLine());
-            for(i = 0; i < numProdutos && i < MAX_NOVOS_PRODUTOS; i++){
-                linha = arquivo.nextLine();
-                produto = Produto.criarDoTexto(linha);
-                produtosCadastrados[i] = produto;
+        try (Scanner arquivo = new Scanner(new File(nomeArquivoDados), Charset.forName("UTF-8"))) {
+
+            if (arquivo.hasNextLine()) {
+                int numProdutos = Integer.parseInt(arquivo.nextLine().trim());
+
+                for (i = 0; i < numProdutos && i < MAX_NOVOS_PRODUTOS && arquivo.hasNextLine(); i++) {
+                    String linha = arquivo.nextLine();
+                    if (!linha.trim().isEmpty()) {
+                        produtosCadastrados[i] = Produto.criarDoTexto(linha);
+                    }
+                }
             }
             quantosProdutos = i;
-        }
-        catch(IOException excecaoArquivo){
-            produtosCadastrados = null;
-        }
-        finally{
-            arquivo.close();
+
+        } catch (IOException | NumberFormatException | NoSuchElementException e) {
+            System.err.println("Erro ao ler arquivo: " + e.getMessage());
+            return new Produto[0];
         }
         return produtosCadastrados;
     }
@@ -139,6 +138,8 @@ public class Comercio {
      */
     public static void salvarProdutos(String nomeArquivo){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            bw.write(String.valueOf(quantosProdutos));
+            bw.newLine();
             for(int i = 0; i < produtosCadastrados.length; i++){
                 if (produtosCadastrados[i] != null) {
                     String informacoesFormatadas = produtosCadastrados[i].gerarDadosTexto();

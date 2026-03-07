@@ -1,4 +1,6 @@
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Produto {
 	
@@ -6,7 +8,10 @@ public abstract class Produto {
 	private String descricao;
 	protected double precoCusto;
 	protected double margemLucro;
-	
+
+    public String getDescricao() {
+        return descricao;
+    }
 	/**
      * Inicializador privado. Os valores default, em caso de erro, são:
      * "Produto sem descrição", R$ 0.00, 0.0  
@@ -107,8 +112,7 @@ public abstract class Produto {
         if(tipo == 1){
             novoProduto = new ProdutoNaoPerecivel(descricao, precoCusto, margemLucro);
         }else{
-            DataTimeFormatter formatoData = DataTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataDeValidade = LocalDate.parse(atributos[4], formatoData);
+            LocalDate dataDeValidade = LocalDate.parse(atributos[4]);
             novoProduto = new ProdutoPerecivel(descricao, precoCusto, margemLucro, dataDeValidade);
         }
 

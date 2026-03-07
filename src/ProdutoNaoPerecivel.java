@@ -21,7 +21,7 @@ public class ProdutoNaoPerecivel extends Produto{
     public String gerarDadosTexto() {
         String precoFormatado = String.format("%.2f", precoCusto).replace(',', '.');
         String margemFormatada = String.format("%.2f", margemLucro).replace(',', '.');
-        String linha = String.format("1;%s;%s;%s", descricao, precoFormatado, margemFormatada);
+        String linha = String.format("1;%s;%s;%s", getDescricao(), precoFormatado, margemFormatada);
         return linha;
     }
 }
