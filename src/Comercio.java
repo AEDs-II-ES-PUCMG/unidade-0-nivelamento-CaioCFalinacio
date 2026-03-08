@@ -92,7 +92,23 @@ public class Comercio {
     /** Localiza um produto no vetor de cadastrados, a partir do nome, e imprime seus dados. 
      *  A busca não é sensível ao caso.  Em caso de não encontrar o produto, imprime mensagem padrão */
     static void localizarProdutos(){
-        //TO DO
+        System.out.println("Digite o nome do produto: ");
+        String nomeProduto = teclado.nextLine().toLowerCase().trim();
+
+        boolean existe = false;
+
+        for (Produto produtoCadastrado : produtosCadastrados) {
+            if(produtoCadastrado != null) {
+                if (produtoCadastrado.getDescricao().toLowerCase().trim().equals(nomeProduto)) {
+                    System.out.println(produtoCadastrado);
+                    existe = true;
+                }
+            }
+        }
+
+        if(!existe){
+            System.out.println("Produto com esse nome não foi encontrado.");
+        }
     }
 
     /**
