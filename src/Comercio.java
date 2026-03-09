@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+
 public class Comercio {
     /** Para inclusão de novos produtos no vetor */
     static final int MAX_NOVOS_PRODUTOS = 10;
