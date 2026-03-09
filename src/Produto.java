@@ -96,7 +96,7 @@ public abstract class Produto {
      * "tipo; descrição;preçoDeCusto;margemDeLucro;[dataDeValidade]"
      * ou o funcionamento não será garantido. Os tipos são 1 para produto não perecível e 2 para perecível.
      * @param linha Linha com os dados do produto a ser criado.
-     * @return Um produto com os dados recebidos
+     * @return Um produto com os dados recebidos;
      */
     static Produto criarDoTexto(String linha){
         Produto novoProduto = null;
